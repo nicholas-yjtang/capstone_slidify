@@ -33,7 +33,7 @@
         <slide class="title-slide segue nobackground">
   <hgroup class="auto-fadein">
     <h1>Capstone Project</h1>
-    <h2></h2>
+    <h2>Predicting the next word using a n-gram model</h2>
     <p>Nicholas Tang<br/></p>
   </hgroup>
   <article></article>  
@@ -43,14 +43,20 @@
     <!-- SLIDES -->
     <slide class="" id="slide-1" style="background:;">
   <hgroup>
-    <h2>Read-And-Delete</h2>
+    <h2>Introduction</h2>
   </hgroup>
   <article data-timings="">
-    <ol>
-<li>Edit YAML front matter</li>
-<li>Write using R Markdown</li>
-<li>Use an empty line followed by three dashes to separate slides!</li>
-</ol>
+    <ul>
+<li>Our application will predict the next word, given a set of previous text</li>
+</ul>
+
+<ul class = "build incremental">
+<li><p>The data to build the prediction model is provided by <a href="http://www.corpora.heliohost.org/">HC Corpora </a>  </p></li>
+<li><p>We select a small sample size (2.5%) to train the data. We sample the data randomly.  </p></li>
+<li><p>The prediction model is built using n-grams. For convenience, we only sample a small size of the data</p></li>
+<li><p>After creating the model, the application will take the text input and will convert it into the same format as our trained data set. </p></li>
+<li><p>The final result is obtained by running the converted input through our prediction model, and displays the predicted word based on those inputs</p></li>
+</ul>
 
   </article>
   <!-- Presenter Notes -->
@@ -58,10 +64,55 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Slide 2</h2>
+    <h2>Data Processing</h2>
   </hgroup>
   <article data-timings="">
-    
+    <p>Before beginning the training process, we clean the data as follows</p>
+
+<ul class = "build incremental">
+<li><p>Remove all swear words in the text that will be used for training</p></li>
+<li><p>Remove all words with special characters (unicode)</p></li>
+<li><p>Remove all stop words in the text (eg common words like is, I, etc)</p></li>
+<li><p>Convert special acronyms (eg U.S.)</p></li>
+<li><p>Separate the training set into 2 samples, where 0.9 will decide the closed book vocabulary. Words that do not appear in the entire training set will be set to <unk> or unknown, to model unknown vocabularies</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Algorithm</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Using a subset of the given corpus (2.5% of each data set), we train as follows</p>
+
+<ul class = "build incremental">
+<li><p>The input string is fed into the algorithm will be initially prepared for evaluation by removing/converting texts to the one similarly used for training</p></li>
+<li><p>The text will then be broken into string tokens (similarly to ngrams). It will then be evaluated against the model to see if this similar text has been seen/modelled before starting from 6 words</p></li>
+<li><p>If it has been seen before based on the previous 6 words, return the most frequent word</p></li>
+<li><p>If it has not been seen before, try the last 5 words (backoff model), and return the most frequent word. Repeat until 0, where we will simply return the most frequently used word in the entire corpus</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Results and performance</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The data was subsequently tested on both the known, and the unknown</p>
+
+<ul class = "build incremental">
+<li><p>Accuracy against the trained sample: 76%</p></li>
+<li><p>Accuracy against the test sample: 4%</p></li>
+<li><p>Size of data model in memory : 107.7Mb</p></li>
+<li><p>Size of vocabulary : 7.3MB</p></li>
+</ul>
+
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -72,14 +123,26 @@
     <ul>
       <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=1 title='Read-And-Delete'>
+        data-slide=1 title='Introduction'>
          1
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=2 title='Slide 2'>
+        data-slide=2 title='Data Processing'>
          2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Algorithm'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Results and performance'>
+         4
       </a>
     </li>
   </ul>

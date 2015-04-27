@@ -38,9 +38,9 @@ The following are some of the steps taken for the model creation
 
 * Convert special acronyms (eg U.S.)
 
-* Create special classes <number>, <money>, <link> to indicate money, numbers and links
+* Create special classes &lt;number&gt;, &lt;money&gt;, &lt;link&gt; to indicate money, numbers and links
 
-* Find the most frequent words in the entire corpus, and use it as the benchmark for creating the <unknown> class
+* Find the most frequent words in the entire corpus, and use it as the benchmark for creating the &lt;unknown&gt; class
 
 * Retain only the most frequent output for a certain sequence of words to improve memory usage
 

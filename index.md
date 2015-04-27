@@ -28,33 +28,35 @@ knit        : slidify::knit2slides
 
 --- .class #id 
 
-## Data Processing
+## Model creation
 
-Before beginning the training process, we clean the data as follows
+The following are some of the steps taken for the model creation
 
-> * Remove all swear words in the text that will be used for training
+* Remove all swear words in the text that will be used for training
 
-> * Remove all words with special characters (unicode)
+* Remove all words with special characters (unicode)
 
-> * Remove all stop words in the text (eg common words like is, I, etc)
+* Convert special acronyms (eg U.S.)
 
-> * Convert special acronyms (eg U.S.)
+* Create special classes <number>, <money>, <link> to indicate money, numbers and links
 
-> * Separate the training set into 2 samples, where 0.9 will decide the closed book vocabulary. Words that do not appear in the entire training set will be set to <unk> or unknown, to model unknown vocabularies
+* Find the most frequent words in the entire corpus, and use it as the benchmark for creating the <unknown> class
+
+* Retain only the most frequent output for a certain sequence of words to improve memory usage
+
+* Divide model from the strings, and simply create the model using indexes to refer to the exact string
+
+* Vocab is stored in a hashtable for quick access
 
 --- .class #id 
 
 ## Algorithm
 
-Using a subset of the given corpus (2.5% of each data set), we train as follows
+* The input string is fed into the algorithm will be initially prepared for evaluation by removing/converting texts to the one similarly used for training (removing punctuations etc)
 
-> * The input string is fed into the algorithm will be initially prepared for evaluation by removing/converting texts to the one similarly used for training
+* The text will then be broken into string tokens (similarly to ngrams). It will then be evaluated against the model to see if this similar text has been seen/modelled before, return the most frequently seen output for this sequence
 
-> * The text will then be broken into string tokens (similarly to ngrams). It will then be evaluated against the model to see if this similar text has been seen/modelled before starting from 6 words
-
-> * If it has been seen before based on the previous 6 words, return the most frequent word
-
-> * If it has not been seen before, try the last 5 words (backoff model), and return the most frequent word. Repeat until 0, where we will simply return the most frequently used word in the entire corpus
+* If it has not been seen before, try the last 4 words (backoff model), and return the most frequent word. Repeat until 0, where we will simply return the most frequently used word found from the training
 
 --- .class #id 
 
@@ -62,10 +64,10 @@ Using a subset of the given corpus (2.5% of each data set), we train as follows
 
 The data was subsequently tested on both the known, and the unknown
 
-> * Accuracy against the trained sample: 76%
+* Accuracy against the trained sample: 80%
 
-> * Accuracy against the test sample: 4%
+* Accuracy against the test sample: 10%
 
-> * Size of data model in memory : 107.7Mb
+* Size of data model in memory : 93.5Mb (Optimized to store only integers)
 
-> * Size of vocabulary : 7.3MB
+* Size of vocabulary : 7.3MB
